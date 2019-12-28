@@ -25,7 +25,8 @@ func Mongo2Crud(c *cli.Context) (err error) {
 func mongo2Crud(input string) (rsp string, err error) {
 	firstWord := ""
 	for _,v:=range []byte(input) {
-		firstWord = string(v)
+		firstWord = strings.ToLower(string(v))
+		break
 	}
 	
 	

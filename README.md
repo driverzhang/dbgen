@@ -32,13 +32,13 @@ so i can copy this "Back"
 my codes :
 
 ```go
-func (k *Back) TableName() (rsp string) {
+func (b *Back) TableName() (rsp string) {
 	return "back"
 }
 
-func (k *Back) CreateManyIndex() (err error) {
+func (b *Back) CreateManyIndex() (err error) {
 	keys := map[string]interface{}{}
-	err = mongo.Collection(k.TableName()).CreateManyIndex(keys)
+	err = mongo.Collection(b.TableName()).CreateManyIndex(keys)
 	if err != nil {
 		return
 	}
@@ -46,9 +46,9 @@ func (k *Back) CreateManyIndex() (err error) {
 	return
 }
 
-func (k *Back) CreateIndex() (err error) {
+func (b *Back) CreateIndex() (err error) {
 	keys := map[string]interface{}{}
-	err = mongo.Collection(k.TableName()).CreateUniqueIndex(keys)
+	err = mongo.Collection(b.TableName()).CreateUniqueIndex(keys)
 	if err != nil {
 		return
 	}
@@ -56,8 +56,8 @@ func (k *Back) CreateIndex() (err error) {
 	return
 }
 
-func (k *Back) GetList(query, sort bson.M, from, size int) (rsp []Back, err error) {
-	collection := mongo.Collection(k.TableName())
+func (b *Back) GetList(query, sort bson.M, from, size int) (rsp []Back, err error) {
+	collection := mongo.Collection(b.TableName())
 	if sort == nil {
 		sort = bson.M{"created_at": 1}
 	}
@@ -70,8 +70,8 @@ func (k *Back) GetList(query, sort bson.M, from, size int) (rsp []Back, err erro
 	return
 }
 
-func (k *Back) GetOne(conditions bson.M) (err error) {
-	err = mongo.Collection(k.TableName()).Where(conditions).FindOne(f)
+func (b *Back) GetOne(conditions bson.M) (err error) {
+	err = mongo.Collection(b.TableName()).Where(conditions).FindOne(f)
 	if err != nil {
 		err = errors.New("获取Back详情出错！" + err.Error())
 		return
@@ -79,26 +79,26 @@ func (k *Back) GetOne(conditions bson.M) (err error) {
 	return
 }
 
-func (k *Back) UpdateOne(data bson.M) (updateId interface{}, err error) {
-	if k.Id.IsZero() {
+func (b *Back) UpdateOne(data bson.M) (updateId interface{}, err error) {
+	if b.Id.IsZero() {
 		err = errors.New("invalid _id")
 		return
 	}
 
-	collection := mongo.Collection(k.TableName())
-	where := bson.M{"_id": k.Id}
+	collection := mongo.Collection(b.TableName())
+	where := bson.M{"_id": b.Id}
 	_, err = collection.Where(where).UpdateOne2(data)
 	if err != nil {
 		err = errors.New("更新Back详情错误！服务器繁忙 " + err.Error())
 		return
 	}
-	updateId = k.Id
+	updateId = b.Id
 	return
 }
 
-func (k *Back) InsertOne() (insertId interface{}, err error) {
-	collection := mongo.Collection(k.TableName())
-	insertR, err := collection.InsertOne2(k)
+func (b *Back) InsertOne() (insertId interface{}, err error) {
+	collection := mongo.Collection(b.TableName())
+	insertR, err := collection.InsertOne2(b)
 	if err != nil {
 		err = errors.New("生成Back数据错误！服务器繁忙 " + err.Error())
 		return
@@ -107,14 +107,14 @@ func (k *Back) InsertOne() (insertId interface{}, err error) {
 	return
 }
 
-func (k *Back) DeleteMany(ids []string) (count int64, err error) {
+func (b *Back) DeleteMany(ids []string) (count int64, err error) {
 	objIds := make([]primitive.ObjectID, len(ids))
 	for i, v := range ids {
 		objId, _ := primitive.ObjectIDFromHex(v)
 		objIds[i] = objId
 	}
 
-	collection := mongo.Collection(k.TableName())
+	collection := mongo.Collection(b.TableName())
 	where := bson.M{"_id": bson.M{"$in": objIds}}
 	count, err = collection.Where(where).Delete2()
 	if err != nil {
@@ -125,8 +125,8 @@ func (k *Back) DeleteMany(ids []string) (count int64, err error) {
 	return
 }
 
-func (k *Back) Count(statement bson.M) (count int64, err error) {
-	count, err = mongo.Collection(k.TableName()).Where(statement).Count2()
+func (b *Back) Count(statement bson.M) (count int64, err error) {
+	count, err = mongo.Collection(b.TableName()).Where(statement).Count2()
 	if err != nil {
 		err = errors.New("获取Back数据条数出错！服务器繁忙 " + err.Error())
 		return
@@ -135,4 +135,10 @@ func (k *Back) Count(statement bson.M) (count int64, err error) {
 }
 ```
   
+ 
+ 
+ 
+ # todoList:
+ 
+ - mysql db gen
  
