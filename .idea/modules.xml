@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/go-mongo-crud-template.iml" filepath="$PROJECT_DIR$/.idea/go-mongo-crud-template.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/dbgen.iml" filepath="$PROJECT_DIR$/.idea/dbgen.iml" />
     </modules>
   </component>
 </project>

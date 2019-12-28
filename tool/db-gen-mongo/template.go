@@ -1,4 +1,4 @@
-package crud
+package db_gen_mongo
 
 import (
 	"bytes"
@@ -7,26 +7,25 @@ import (
 
 // VersionOptions include version
 type TableOptions struct {
-	N    string
-	name string
-	Name string
+	N       string
+	LowName string
+	Name    string
 }
 
-func GetMongoCrudTemplate() (rsp string, err error) {
+func (t *TableOptions) setName(name string)  {
+	t.LowName = name
+}
+
+func (t *TableOptions)getMongoCrudTemplate() (rsp string, err error) {
 	var doc bytes.Buffer
-	vo := TableOptions{
-		N:    "",
-		name: "",
-		Name: "",
-	}
-	tmpl, _ := template.New("table_struct").Parse(crudTemplate)
-	err = tmpl.Execute(&doc, vo)
+	tmpl, _ := template.New("TableOptions").Parse(crudTemplate)
+	err = tmpl.Execute(&doc, t)
 	rsp = doc.String()
 	return
 }
 
 var crudTemplate = `func ({{.N}} *{{.Name}}) TableName() (rsp string) {
-	return "{{.name}}"
+	return "{{.LowName}}"
 }
 
 func ({{.N}} *{{.Name}}) CreateManyIndex() (err error) {

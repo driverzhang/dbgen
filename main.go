@@ -2,26 +2,44 @@ package main
 
 import (
 	"fmt"
-	"github.com/driverzhang/dbgen/crud"
+	"github.com/urfave/cli"
 	"os"
+
+	"github.com/driverzhang/dbgen/tool/db-gen-mongo"
 )
 
 func main() {
-	args := os.Args
-	if len(args) == 1 {
-		fmt.Println("dbgen error args")
-		return
+	app := cli.NewApp()
+	app.Name = "dbgen"
+	app.Usage = "dbgen工具集"
+	app.Version = Version
+	app.Commands = []cli.Command{
+		{
+			Name:    "mongo",
+			Aliases: []string{"mo"},
+			Usage:   "create mongo db",
+			// Flags: []cli.Flag{
+			// 	cli.StringFlag{
+			// 		Name:        "f",
+			// 		Value:       "",
+			// 		Usage:       "go file for create mongo db",
+			// 		Destination: &db_gen_mongo.P.Path,
+			// 	},
+			// },
+			Action: db_gen_mongo.Mongo2Crud,
+		},
+		{
+			Name:    "version",
+			Aliases: []string{"v"},
+			Usage:   "dbgen version",
+			Action: func(c *cli.Context) error {
+				fmt.Println(getVersion())
+				return nil
+			},
+		},
 	}
-
-	command := args[1]
-	switch command {
-	case "db2mongo":
-		_, err := crud.GetMongoCrudTemplate()
-		if err != nil {
-			fmt.Println("dbgen", err.Error())
-		} else {
-			fmt.Println("dbgen", "gen mongo crud template struct from clipboard success")
-		}
+	err := app.Run(os.Args)
+	if err != nil {
+		panic(err)
 	}
-
 }
