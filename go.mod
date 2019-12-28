@@ -1,4 +1,4 @@
-module github.com/driverzhang/go-mongo-crud-template
+module github.com/driverzhang/dbgen
 
 go 1.12
 

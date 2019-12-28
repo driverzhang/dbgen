@@ -2,14 +2,14 @@ package main
 
 import (
 	"fmt"
-	"github.com/driverzhang/go-mongo-crud-template/crud"
+	"github.com/driverzhang/dbgen/crud"
 	"os"
 )
 
 func main() {
 	args := os.Args
 	if len(args) == 1 {
-		fmt.Println("Bygo error args")
+		fmt.Println("dbgen error args")
 		return
 	}
 
@@ -18,9 +18,9 @@ func main() {
 	case "db2mongo":
 		_, err := crud.GetMongoCrudTemplate()
 		if err != nil {
-			fmt.Println("bygo", err.Error())
+			fmt.Println("dbgen", err.Error())
 		} else {
-			fmt.Println("bygo", "gen mongo crud template struct from clipboard success")
+			fmt.Println("dbgen", "gen mongo crud template struct from clipboard success")
 		}
 	}
 
