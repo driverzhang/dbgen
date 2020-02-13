@@ -12,11 +12,11 @@ type TableOptions struct {
 	Name    string
 }
 
-func (t *TableOptions) setName(name string)  {
+func (t *TableOptions) setName(name string) {
 	t.LowName = name
 }
 
-func (t *TableOptions)getMongoCrudTemplate() (rsp string, err error) {
+func (t *TableOptions) getMongoCrudTemplate() (rsp string, err error) {
 	var doc bytes.Buffer
 	tmpl, _ := template.New("TableOptions").Parse(crudTemplate)
 	err = tmpl.Execute(&doc, t)
@@ -63,7 +63,7 @@ func ({{.N}} *{{.Name}}) GetList(query, sort bson.M, from, size int) (rsp []{{.N
 }
 
 func ({{.N}} *{{.Name}}) GetOne(conditions bson.M) (err error) {
-	err = mongo.Collection({{.N}}.TableName()).Where(conditions).FindOne(f)
+	err = mongo.Collection({{.N}}.TableName()).Where(conditions).FindOne({{.N}})
 	if err != nil {
 		err = errors.New("获取{{.Name}}详情出错！" + err.Error())
 		return
